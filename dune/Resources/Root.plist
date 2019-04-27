@@ -134,8 +134,36 @@
 			<key>label</key>
 			<string>Keyboard</string>
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.skitty.dune</string>
+			<key>PostNotification</key>
+			<string>com.skitty.dune.prefschanged</string>
+			<key>key</key>
+			<string>clearwidgets</string>
+			<key>label</key>
+			<string>Clear Widgets</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>com.skitty.dune</string>
+			<key>PostNotification</key>
+			<string>com.skitty.dune.prefschanged</string>
+			<key>key</key>
+			<string>darkerdune</string>
+			<key>label</key>
+			<string>Darker Dune</string>
+		</dict>
 	</array>
 	<key>title</key>
-	<string>Dune</string>
+	<string>Darker Dune</string>
 </dict>
 </plist>

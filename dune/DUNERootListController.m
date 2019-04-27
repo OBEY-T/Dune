@@ -19,7 +19,7 @@
 		label = [[UILabel alloc] initWithFrame:labelFrame];
 		[label setNumberOfLines:1];
 		label.font = [UIFont systemFontOfSize:50];
-		[label setText:@"Dune"];
+		[label setText:@"Darker Dune"];
 		//[label setBackgroundColor:[UIColor clearColor]];
 		label.textColor = kTintColor;
 		label.textAlignment = NSTextAlignmentCenter;
@@ -27,7 +27,7 @@
 		underLabel = [[UILabel alloc] initWithFrame:underLabelFrame];
 		[underLabel setNumberOfLines:1];
 		underLabel.font = [UIFont systemFontOfSize:20];
-		[underLabel setText:@"A Free iOS Dark Mode"];
+		[underLabel setText:@"A Darker Free iOS Dark Mode"];
 		//[underLabel setBackgroundColor:[UIColor clearColor]];
 		underLabel.textColor = [UIColor grayColor];
 		underLabel.textAlignment = NSTextAlignmentCenter;

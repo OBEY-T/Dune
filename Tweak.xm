@@ -12,6 +12,8 @@ static BOOL touch3d;
 static BOOL folders;
 static BOOL dock;
 static BOOL keyboard;
+static BOOL clearwidgets;
+static BOOL darkerdune;
 
 // Preference Updates
 static void refreshPrefs() {
@@ -36,6 +38,8 @@ static void refreshPrefs() {
   folders = [([settings objectForKey:@"folders"] ?: @(YES)) boolValue];
   dock = [([settings objectForKey:@"dock"] ?: @(YES)) boolValue];
   keyboard = [([settings objectForKey:@"keyboard"] ?: @(NO)) boolValue];
+  clearwidgets = [([settings objectForKey:@"clearwidgets"] ?: @(YES)) boolValue];
+  darkerdune = [([settings objectForKey:@"darkerdune"] ?: @(NO)) boolValue];
 }
 
 static void PreferencesChangedCallback(CFNotificationCenterRef center, void *observer, CFStringRef name, const void *object, CFDictionaryRef userInfo) {
@@ -106,7 +110,13 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
   if (enabled && notifications) {
     UIColor *whiteColor = [UIColor whiteColor];
-    UIColor *blackColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+	UIColor *blackColor;
+	
+	if (darkerdune) {
+		blackColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+	} else {
+		blackColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+	}
 
     UIView *mainOverlayView = MSHookIvar<UIView *>(self, "_mainOverlayView");
 
@@ -136,10 +146,18 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
   if (mainOverlayView.backgroundColor != nil) {
     if (enabled && notifications && arg1 == YES ) {
-      mainOverlayView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.4];
+		if (darkerdune) {
+			mainOverlayView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+		} else {
+			mainOverlayView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.4];
+		}
     }
     if (enabled && notifications && arg1 == NO) {
-      mainOverlayView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+		if (darkerdune) {
+			mainOverlayView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+		} else {
+			mainOverlayView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+		}
     }
   }
 }
@@ -192,7 +210,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
       if([view isKindOfClass:%c(PLPlatterView)]) {
         count++;
         if (count == 1) {
-          MSHookIvar<UIView *>(view, "_mainOverlayView").alpha = 0.24;
+			if (darkerdune) {
+				MSHookIvar<UIView *>(view, "_mainOverlayView").alpha = 0.34;
+			} else {
+				MSHookIvar<UIView *>(view, "_mainOverlayView").alpha = 0.24;
+			}
         }
         MSHookIvar<UIView *>(view, "_mainOverlayView").backgroundColor = [UIColor blackColor];
       }
@@ -207,16 +229,28 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
   %orig;
   if (enabled && notifications) {
     [[MSHookIvar<UILabel *>(self, "_titleLabel") layer] setFilters:nil];
-    MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	if (darkerdune) {
+		MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
+	} else {
+		MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	}
   }
 }
 - (void)setHighlighted:(BOOL)arg1 {
   %orig;
   if (enabled && notifications && arg1 == YES) {
-    MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.34];
+	if (darkerdune) {
+		MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	} else {
+		MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.34];
+	}
   }
   if (enabled && notifications && arg1 == NO) {
-    MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	if (darkerdune) {
+		MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
+	} else {
+		MSHookIvar<UIView *>(self, "_backgroundOverlayView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	}
   }
 }
 %end
@@ -226,7 +260,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 - (void)layoutSubviews {
   %orig;
   if (enabled && notifications) {
-    MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	if (darkerdune) {
+		MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
+	} else {
+		MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	}
     CAFilter* filter = [CAFilter filterWithName:@"vibrantDark"];
     [filter setDefaults];
     [[MSHookIvar<UIView *>(self, "_titleLabel") layer] setFilters:[NSArray arrayWithObject:filter]];
@@ -236,10 +274,18 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 - (void)setHighlighted:(BOOL)arg1 {
   %orig;
   if (enabled && notifications && arg1 == YES) {
-    MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.34];
+	if (darkerdune) {
+		MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	} else {
+		MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.34];
+	}
   }
-  if (enabled && notifications && arg1 == NO) {
-    MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+  if (enabled && notifications && arg1 == NO) {\
+	if (darkerdune) {
+		MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
+	} else {
+		MSHookIvar<UIView *>(self, "_overlayMaterialView").backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+	}
   }
 }
 %end
@@ -251,9 +297,25 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
   if (enabled && widgets) {
     UIColor *whiteColor = [UIColor whiteColor];
-    UIColor *headColor = [UIColor colorWithWhite:0.0 alpha:0.6];
-    UIColor *mainColor = [UIColor colorWithWhite:0.0 alpha:0.5];
-
+    UIColor *headColor;
+    UIColor *mainColor;
+	
+	if (darkerdune) {
+		if (clearwidgets) {
+			headColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+		} else {
+			headColor = [UIColor colorWithWhite:0.0 alpha:0.7];
+		}
+		mainColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+	} else {
+		if (clearwidgets) {
+			headColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+		} else {
+			headColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+		}
+		mainColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+	}
+	
     UIView *headerOverlayView = MSHookIvar<UIView *>(self, "_headerOverlayView");
     UIView *mainOverlayView = MSHookIvar<UIView *>(self, "_mainOverlayView");
     [headerOverlayView setBackgroundColor:headColor];
@@ -283,7 +345,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
     MTMaterialView *backgroundView = MSHookIvar<MTMaterialView*>(self, "_backgroundView");
     for (UIView *view in backgroundView.subviews) {
-      view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+		if (darkerdune) {
+			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
+		} else {
+			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+		}
     }
   }
 }
@@ -318,7 +384,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 - (void)setWallpaperBackgroundRect:(CGRect)rect forContents:(CGImageRef)contents withFallbackColor:(CGColorRef)fallbackColor {
   if (enabled && folders) {
   	%orig(CGRectNull, nil, nil);
-    self.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.7];
+	if (darkerdune) {
+		self.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.8];
+	} else {
+		self.backgroundColor = [UIColor colorWithWhite:0.1 alpha:0.7];
+	}
   } else {
     %orig;
   }
@@ -356,7 +426,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
   if (enabled && touch3d) {
     for (MTMaterialView *materialView in self.view.subviews) {
       for (UIView *view in materialView.subviews) {
-        view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+		if (darkerdune) {
+			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
+		} else {
+			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+		}
       }
     }
   }
@@ -387,7 +461,11 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 - (void)setHighlighted:(BOOL)arg1 {
   %orig;
   if (enabled && touch3d && arg1 == YES) {
-    self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.1];
+	if (darkerdune) {
+		self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
+	} else {
+		self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.1];
+	}
   }
   if (enabled && touch3d && arg1 == NO) {
     self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.0];
