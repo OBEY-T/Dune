@@ -345,11 +345,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 
     MTMaterialView *backgroundView = MSHookIvar<MTMaterialView*>(self, "_backgroundView");
     for (UIView *view in backgroundView.subviews) {
-		if (darkerdune) {
-			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
-		} else {
-			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
-		}
+		view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
     }
   }
 }
@@ -426,12 +422,8 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
   if (enabled && touch3d) {
     for (MTMaterialView *materialView in self.view.subviews) {
       for (UIView *view in materialView.subviews) {
-		if (darkerdune) {
-			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.54];
-		} else {
-			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.44];
+			view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.30];
 		}
-      }
     }
   }
 }
@@ -461,11 +453,7 @@ static void PreferencesChangedCallback(CFNotificationCenterRef center, void *obs
 - (void)setHighlighted:(BOOL)arg1 {
   %orig;
   if (enabled && touch3d && arg1 == YES) {
-	if (darkerdune) {
-		self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
-	} else {
-		self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.1];
-	}
+	self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.07];
   }
   if (enabled && touch3d && arg1 == NO) {
     self.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.0];
